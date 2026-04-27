@@ -1,13 +1,15 @@
-import { useAuth } from './contexts/AuthContext'
 import TodoList from './components/TodoList'
-import AuthForm from './components/AuthForm'
+// Segment 2: import useAuth from './contexts/AuthContext'
+// Segment 3: import AuthForm from './components/AuthForm'
 
 function App() {
-  const { user } = useAuth()
+  // Segment 2: get user from useAuth()
+
   return (
     <div>
       <h1>My Todo App</h1>
-      {user ? <TodoList /> : <AuthForm />}
+      {/* Segment 4: show TodoList if logged in, AuthForm if not */}
+      <TodoList />
     </div>
   )
 }

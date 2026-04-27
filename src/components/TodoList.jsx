@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
 import { ref, push, onValue, remove } from 'firebase/database'
 import { db } from '../firebase'
-import { useAuth } from '../contexts/AuthContext'
+// Segment 5: import useAuth from '../contexts/AuthContext'
 
 export default function TodoList() {
   const [todos, setTodos] = useState([])
   const [input, setInput] = useState('')
-  const { user, logOut } = useAuth()
+  // Segment 5: get user and logOut from useAuth()
 
   useEffect(() => {
-    const todosRef = ref(db, `todos/${user.uid}`)
+    // Segment 5: change this path to todos/${user.uid}
+    const todosRef = ref(db, 'todos')
     const unsubscribe = onValue(todosRef, (snapshot) => {
       const data = snapshot.val()
       if (data) {
@@ -20,25 +21,25 @@ export default function TodoList() {
       }
     })
     return unsubscribe
-  }, [user])
+    // Segment 5: add user to the dependency array
+  }, [])
 
   function addTodo(e) {
     e.preventDefault()
     if (!input.trim()) return
-    push(ref(db, `todos/${user.uid}`), { text: input })
+    // Segment 5: change this path to todos/${user.uid}
+    push(ref(db, 'todos'), { text: input })
     setInput('')
   }
 
   function deleteTodo(id) {
-    remove(ref(db, `todos/${user.uid}/${id}`))
+    // Segment 5: change this path to todos/${user.uid}/${id}
+    remove(ref(db, `todos/${id}`))
   }
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>{user.email}</span>
-        <button onClick={logOut}>Sign out</button>
-      </div>
+      {/* Segment 4: show user.email and a sign-out button here */}
       <h2>My Todos</h2>
       <form onSubmit={addTodo}>
         <input
