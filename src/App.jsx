@@ -4,12 +4,10 @@ import AuthForm from './components/AuthForm'
 
 function App() {
   const { user } = useAuth()
-
   return (
     <div>
       <h1>My Todo App</h1>
-      {/* Segment 4: show TodoList only when logged in */}
-      <TodoList />
+      {user ? <TodoList /> : <AuthForm />}
     </div>
   )
 }
