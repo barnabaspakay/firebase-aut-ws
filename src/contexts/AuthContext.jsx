@@ -1,29 +1,29 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { auth } from '../firebase'
-// Segment 3: import createUserWithEmailAndPassword, signInWithEmailAndPassword,
-//            signOut, onAuthStateChanged from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth'
+// Segment 3: add more imports here
 
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-  // Segment 2: add state for user (null) and loading (true)
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  // Segment 2: subscribe to auth state with onAuthStateChanged
-  //            update user, set loading to false when it fires
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+      setLoading(false)
+    })
+    return unsubscribe
+  }, [])
 
-  // Segment 3: add signUp(email, password) function
-  // Segment 3: add signIn(email, password) function
-  // Segment 3: add logOut() function
+  // Segment 3: add signUp, signIn, logOut here
 
-  const value = {
-    // Segment 2: user
-    // Segment 3: signUp, signIn, logOut
-  }
+  const value = { user }
 
   return (
     <AuthContext.Provider value={value}>
-      {/* Segment 2: render children only when not loading */}
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   )
 }

@@ -1,19 +1,15 @@
-import { useEffect } from 'react'
-import { auth } from './firebase'
-import { onAuthStateChanged } from 'firebase/auth'
+import { useAuth } from './contexts/AuthContext'
 import TodoList from './components/TodoList'
+// Segment 3: import AuthForm from './components/AuthForm'
 
 function App() {
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log('Auth state:', user)
-    })
-    return unsubscribe
-  }, [])
+  const { user } = useAuth()
+  console.log('Current user:', user)
 
   return (
     <div>
       <h1>My Todo App</h1>
+      {/* Segment 4: protect this */}
       <TodoList />
     </div>
   )
